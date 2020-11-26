@@ -1,0 +1,7 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Users\\domin\\Downloads\\mysql-connector-java-5.1.49.jar",
+        "c:\\Users\\domin\\Downloads\\rs2xml.jar"
+    ]
+}
