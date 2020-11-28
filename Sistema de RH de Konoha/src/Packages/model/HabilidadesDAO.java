@@ -10,8 +10,7 @@ import java.util.List;
 import java.sql.Connection;
 
 public class HabilidadesDAO {
-    public void create(Habilidades habilidade)
-	{
+    public void create(Habilidades habilidade) {
 		Connection con = ConnectionFactory.getConnection();
 		PreparedStatement stmt = null;
 		

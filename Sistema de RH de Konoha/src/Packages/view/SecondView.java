@@ -14,10 +14,12 @@ import javax.swing.border.EmptyBorder;
 import Packages.bo.Habilidades;
 import Packages.bo.Missao;
 import Packages.bo.Ninja;
+import Packages.connect.ConnectionFactory;
 import Packages.controller.HabilidadesController;
 import Packages.controller.MissaoController;
 import Packages.controller.NinjaController;
 import Packages.model.NinjaDAO;
+import net.proteanit.sql.DbUtils;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -82,6 +84,7 @@ public class SecondView extends JFrame {
 	 * Create the frame.
 	 */
 	public SecondView() {
+		Connection con = ConnectionFactory.getConnection();
 		getContentPane().setBackground(new Color(0, 100, 0));
 		getContentPane().setLayout(null);
 		setSize(1041, 612);
@@ -397,42 +400,53 @@ public class SecondView extends JFrame {
         JButton btselectmission = new JButton("Select");
 		btselectmission.setBounds(292, 301, 72, 23);
 		panelmission.add(btselectmission);
-		
+				
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(479, 100, 536, 344);
 		getContentPane().add(scrollPane);
-		
-		table = new JTable();
-        scrollPane.setViewportView(table);
-        
-        /*btselectshinobi.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-                Ninja ninja = new Ninja();
-                ninja.setMatricula(Integer.parseInt(scrollPane.getText()));
 
-                NinjaController ninjaRead = new NinjaController();
-                ninjaRead.read();
+        btselectshinobi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+                try {
+					String query = "SELECT * FROM db_system.NINJA";
+					PreparedStatement pst = con.prepareStatement(query);
+					ResultSet result = pst.executeQuery();
+					table.setModel(DbUtils.resultSetToTableModel(result));
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
-        });*/
-        
+        });
         btselectskill.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-                Habilidades habilidade = new Habilidades();
-                habilidade.setCodigo(Integer.parseInt(textmat.getText()));
+                try {
+					String query = "SELECT * FROM db_system.HABILIDADES";
+					PreparedStatement pst = con.prepareStatement(query);
+					ResultSet result = pst.executeQuery();
+					table.setModel(DbUtils.resultSetToTableModel(result));
 
-                HabilidadesController HabilidadesRead = new HabilidadesController();
-                HabilidadesRead.read();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
         });
         
         btselectmission.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-                Missao missao = new Missao();
-                missao.setCodigo(Integer.parseInt(textcodmission.getText()));
+                try {
+					String query = "SELECT * FROM db_system.MISSAO";
+					PreparedStatement pst = con.prepareStatement(query);
+					ResultSet result = pst.executeQuery();
+					table.setModel(DbUtils.resultSetToTableModel(result));
 
-                MissaoController missaoRead = new MissaoController();
-                missaoRead.read();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
+				
+		table = new JTable();
+        scrollPane.setViewportView(table);
 	}
 }
